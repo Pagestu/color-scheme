@@ -6,5 +6,5 @@ sleep 5
 
 while true; do
   sh "$MODDIR/natural.sh"
-  sleep 10
+  sleep 30
 done &
