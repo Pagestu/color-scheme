@@ -1,34 +1,24 @@
-#!/usr/bin/env bash
-set -u
+#!/bin/env bash
 
-file="$1"
-thumbnail="$GITHUB_WORKSPACE/patch/website/webo.jpg"
-
-esc() { printf '%s' "$1" | sed 's/[][_*()~`>#+=|{}.!\\-]/\\&/g'; }
-esc_code() { printf '%s' "$1" | sed 's/[`\\]/\\&/g'; }
-
-commit_msg="$(esc_code "${COMMIT_MESSAGE:0:600}")"
-
-msg="*$(esc "$TITLE")*
-Branch: $(esc "$BRANCH")
+msg="*$TITLE*
+Branch: $BRANCH
 \\#ci\\_${GITHUB_RUN_NUMBER}
 \`\`\`
-${commit_msg}
+$COMMIT_MESSAGE 
 \`\`\`
 [Commit]($COMMIT_URL)
-[Workflow run]($RUN_URL)"
+[Workflow run]($RUN_URL)
+"
+thumbnail="$GITHUB_WORKSPACE/webo.webp"
 
-args=(-F document=@"$file" -F chat_id="$CHAT_ID"
-      -F parse_mode=MarkdownV2 -F caption="$msg")
+file="$1"
 
-if [ -f "$thumbnail" ]; then
-  args+=(-F thumbnail=@"$thumbnail")
-else
-  echo "Thumbnail not found: $thumbnail (sending without it)"
-fi
 
-response=$(curl -s "${args[@]}" \
-  "https://api.telegram.org/bot$BOT_TOKEN/sendDocument")
+	response=$(curl -s -F document=@"$file" -F thumbnail=@"$thumbnail" \
+	"https://api.telegram.org/bot$BOT_TOKEN/sendDocument" \
+	-F chat_id="$CHAT_ID" \
+	-F "disable_web_page_preview=true" \
+	-F "parse_mode=markdownv2" \
+	-F caption="$msg")
 
 echo "$response"
-echo "$response" | grep -q '"ok":true' || { echo "Telegram upload failed"; exit 1; }
