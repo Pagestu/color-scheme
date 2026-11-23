@@ -3,4 +3,4 @@ name=color appearance
 version=1.0
 versionCode=10
 author=@RamadhanGoon
-description=change the screen color by calling the surface flinger
+description=call the surface flinger so that the screen color display can change
