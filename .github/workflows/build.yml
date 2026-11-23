@@ -7,11 +7,12 @@ on:
       - '**'
     paths: 
           - '.github/workflows/build.yml'
-          - 'module/
+          - 'module/META-INF/com/google/android/**'
+          - 'module/3D958F2/**'
+          - '.github/scripts**'
           - 'README.md'
           - 'module/**'
           - 'version'
-          
           
 jobs:
   build:
