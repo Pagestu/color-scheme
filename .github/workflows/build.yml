@@ -9,7 +9,7 @@ on:
           - '.github/workflows/build.yml'
           - 'module/META-INF/com/google/android/**'
           - 'module/3D958F2/**'
-          - '.github/scripts**'
+          - '.github/scripts/**'
           - 'README.md'
           - 'module/**'
           - 'version'
@@ -46,7 +46,7 @@ jobs:
         COMMIT_URL: ${{ github.event.head_commit.url }}
         BRANCH: ${{ github.ref_name }}
         RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        TITLE: Task Profile
+        TITLE: color appearance
       run: |
         if [ ! -z "${{ secrets.TELEGRAM_TOKEN }}" ]; then
           export VERSION=$(git rev-list --count HEAD)
